@@ -34,7 +34,7 @@ class TodoList extends React.Component<Props, State, TodoItem> {
     }));
   };
 
-  public onEdit = (id: number): void => {
+  public onEdit = (id: number, e: React.FormEvent<HTMLFormElement>): void => {
     const { todoItems } = this.state;
     const index = todoItems.findIndex((data) => data.id === id); // id 로 인덱스 찾기
     const selectedItem = todoItems[index]; //  아이템 선택
@@ -43,10 +43,13 @@ class TodoList extends React.Component<Props, State, TodoItem> {
     const nextItem = {
       ...selectedItem,
       editMode: !selectedItem.editMode,
+      text: e.currentTarget,
     };
 
-    nextItems[index] = nextItem; // 교체 처리
+    console.log(nextItem);
+    console.log(11);
 
+    // nextItems[index] = nextItem; // 교체 처리
     this.setState({
       todoItems: nextItems,
     });
@@ -85,24 +88,14 @@ class TodoList extends React.Component<Props, State, TodoItem> {
 
     const todoItemsList = todoItems.map((data) => (
       <li key={data.id}>
-        {data.editMode ? (
-          <form>
-            <input value={data.text} />
-            <span
-              style={{ marginLeft: "0.5rem" }}
-              onClick={() => onUpdate(data.id)}
-            >
-              <MdDone />
-            </span>
-          </form>
-        ) : (
-          <b>{data.text}</b>
-        )}
-
-        <span style={{ marginLeft: "0.5rem" }} onClick={() => onEdit(data.id)}>
+        {/* 데이터 값 */}
+        <b>{data.text}</b>
+        {/* 연필 버튼을 눌렀을 때 아래 수정 폼 생성  */}
+        {/* <form onSubmit={onEdit}></form> */}
+        {/* <button style={{ marginLeft: "0.5rem" }} onClick={onEdit}>
           <MdEditNote />
-        </span>
-
+        </button> */}
+        {/* 삭제 */}
         <span
           style={{ marginLeft: "0.5rem" }}
           onClick={() => onRemove(data.id)}
